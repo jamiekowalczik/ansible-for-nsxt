@@ -1,0 +1,20 @@
+# Copyright 2018 VMware, Inc.
+# SPDX-License-Identifier: BSD-2-Clause OR GPL-3.0-only
+---
+- hosts: 127.0.0.1
+  connection: local
+  become: yes
+  vars_files:
+    - deploy_nsx_cluster_vars.yml
+  tasks:
+    - name: Add license
+      nsxt_licenses:
+        hostname: "{{ nsx_node1['hostname'] }}"
+        username: "{{ nsx_username }}"
+        password: "{{ nsx_password }}"
+        validate_certs: False
+        license_key: "{{ nsx_license_key  }}"
+        state: present
+      when:
+        - nsx_license_key != "null"
+
